@@ -41,12 +41,12 @@ void setup(){
   
   //camera = new PeasyCam(this, SCENE_SIZE/2, SCENE_SIZE, (SCENE_SIZE/2.0) / tan (PI*30.0 / 180.0), SCENE_SIZE/2.0, SCENE_SIZE/2.0, 0, 0, 1, 0);
 
-  camera = new PeasyCam(this, SCENE_SIZE/2, 5 * SCENE_SIZE/6, (SCENE_SIZE/2.0) / tan (PI*30.0 / 180.0), 10);
+  camera = new PeasyCam(this, SCENE_SIZE/2, 19 * SCENE_SIZE / 20, (SCENE_SIZE/2.0) / tan (PI*30.0 / 180.0), 10);
 
   camera.setSuppressRollRotationMode();
   addInnerPoint();  //get our first ball ready
+  addOuterPoint();
   
-  //#4B2400
   fill(172);
   stroke(0, 172, 255);
   
@@ -56,7 +56,7 @@ void setup(){
 
 //Called every frame
 void draw(){
-  background(172);
+  background(0);
   
   TimeStep();
   Update(elapsedTime/1000.0);
@@ -73,7 +73,6 @@ void TimeStep(){
 
 //calculate how far to move points
 void Update(float dt){
-  //dt /= 2;
   for(int i = 0; i < position.size(); i++){
     position.get(i).x += (velocity.get(i).x * dt);
     position.get(i).y += velocity.get(i).y * dt;
@@ -83,7 +82,7 @@ void Update(float dt){
     
     lifetime.set(i, lifetime.get(i) - dt);
     
-    CheckBounds(position.get(i), velocity.get(i));  //simulate wall collision
+    CheckBounds(position.get(i), velocity.get(i));  //simulate floor collision
   }
 }
 
@@ -167,12 +166,12 @@ void renderPoints(){
 
 //outer fountain
 void addOuterPoint() {
-  //calculate uniform disk
-  //use random and sqrt for uniform disk, but I just want edge
-  float r = sampleRadius;
-  float theta = 2 * PI * random(1);
-  
   for(int i = 0; i < spawnRate; i++) {
+    //calculate uniform disk
+    //use random and sqrt for uniform disk, but I just want edge
+    float r = sampleRadius;
+    float theta = 2 * PI * random(1);
+  
     velocity.add(new PVector(random(-5, 5), random(-12, -15), random(-5, 5)));
     position.add(new PVector(SCENE_SIZE/2 + r * sin(theta), random(SCENE_SIZE - 1, SCENE_SIZE), SCENE_SIZE/2 + r * cos(theta)));
     lifetime.add(MAX_LIFE);
@@ -182,6 +181,7 @@ void addOuterPoint() {
 //inner fountain
 void addInnerPoint(){
   //calculate uniform disk
+  //use random and sqrt for uniform disk, but I just want edge
   float r = sampleRadius;
   float theta = 2 * PI * random(1);
   
@@ -193,15 +193,11 @@ void addInnerPoint(){
 }
 
 
-//renders our lights and walls
+//renders our floor
 void setupScene(){
-  //lights
-  //ambientLight(102, 102, 102);
-  //lightSpecular(204, 204, 204);
-  //directionalLight(102, 102, 102, 0, 0, -1);
-
   pushMatrix();
-  fill(0);
+  fill(#09002E);
+  noStroke();
   translate(render_x, 0, render_z);
   //floor
   translate(SCENE_SIZE/2, 1+SCENE_SIZE, SCENE_SIZE/2);
