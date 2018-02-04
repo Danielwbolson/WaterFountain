@@ -29,7 +29,7 @@ void setup(){
   lifeDecay = 255.0 / MAX_LIFE;
   SCENE_SIZE = 100;
   strokeWeight(15);
-  spawnRate = 25;
+  spawnRate = 40;
   sampleRadius = .1;
   
   render_x = 0;
@@ -167,28 +167,30 @@ void renderPoints(){
 //outer fountain
 void addOuterPoint() {
   for(int i = 0; i < spawnRate; i++) {
+    
     //calculate uniform disk
     //use random and sqrt for uniform disk, but I just want edge
     float r = sampleRadius;
     float theta = 2 * PI * random(1);
   
-    velocity.add(new PVector(random(-5, 5), random(-12, -15), random(-5, 5)));
-    position.add(new PVector(SCENE_SIZE/2 + r * sin(theta), random(SCENE_SIZE - 1, SCENE_SIZE), SCENE_SIZE/2 + r * cos(theta)));
+    velocity.add(new PVector(50 * r * sin(theta), random(-12, -15), 50 * r * cos(theta)));
+    position.add(new PVector(SCENE_SIZE/2 + r * sin(theta), random(SCENE_SIZE - 2, SCENE_SIZE), SCENE_SIZE/2 + r * cos(theta)));
     lifetime.add(MAX_LIFE);
   }
 }
 
 //inner fountain
-void addInnerPoint(){
-  //calculate uniform disk
-  //use random and sqrt for uniform disk, but I just want edge
-  float r = sampleRadius;
-  float theta = 2 * PI * random(1);
-  
+void addInnerPoint(){ 
   for(int i = 0; i < spawnRate; i++) {
-    velocity.add(new PVector(random(-2, 2), random(-17, -20), random(-2, 2)));
-    position.add(new PVector(SCENE_SIZE/2 + r * sin(theta), random(SCENE_SIZE - 1, SCENE_SIZE), SCENE_SIZE/2 + r * cos(theta)));
-    lifetime.add(MAX_LIFE);
+    
+    //calculate uniform disk
+    //use random and sqrt for uniform disk, but I just want edge     
+    float r = sampleRadius;
+    float theta = 2 * PI * random(1);
+    
+    velocity.add(new PVector(20 * r * sin(theta), random(-17, -20), 20 * r * cos(theta)));
+    position.add(new PVector(SCENE_SIZE/2 + r * sin(theta), random(SCENE_SIZE - 2, SCENE_SIZE), SCENE_SIZE/2 + r * cos(theta)));
+    lifetime.add(MAX_LIFE * 1.2);
   }
 }
 
