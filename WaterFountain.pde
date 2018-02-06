@@ -38,8 +38,6 @@ void setup(){
   
   float cameraZ = ((SCENE_SIZE-2.0) / tan(PI*60.0 / 360.0));
   perspective(PI/3.0, 1, 0.1, cameraZ*10.0);
-  
-  //camera = new PeasyCam(this, SCENE_SIZE/2, SCENE_SIZE, (SCENE_SIZE/2.0) / tan (PI*30.0 / 180.0), SCENE_SIZE/2.0, SCENE_SIZE/2.0, 0, 0, 1, 0);
 
   camera = new PeasyCam(this, SCENE_SIZE/2, 19 * SCENE_SIZE / 20, (SCENE_SIZE/2.0) / tan (PI*30.0 / 180.0), 10);
 
@@ -91,24 +89,16 @@ void Update(float dt){
 void UserInput(){
   if(keyPressed){
     if(key == 'w'){
-      for(int i = position.size() - 1; i > 0; i--){
-        render_z += .0001;
-      }
+        render_z += 2;
     }
     if(key == 's'){
-      for(int i = position.size() - 1; i > 0; i--){
-        render_z -=.0001;
-      }
+        render_z -= 2;
     }
     if(key == 'a'){
-      for(int i = position.size() - 1; i > 0; i--){
-       render_x +=.0001;
-      }
+       render_x += 2;
     }
     if(key =='d'){
-      for(int i = position.size() - 1; i > 0; i--){
-        render_x -=.0001;
-      }
+        render_x -= 2;
     }
   }
 }
@@ -118,7 +108,7 @@ void UserInput(){
 void Simulate(){
   setupScene();  // setup lights and floor
   addInnerPoint();  // add information to arraylists for new point
-  addOuterPoint();
+  addOuterPoint(); // outer, lower fountain
   renderPoints();  // transpose stores points, including our new ball
   
   println("Framerate: " + frameRate);
@@ -142,6 +132,7 @@ void CheckBounds(PVector pos, PVector vel){
     }
 }
 
+//rendering all points
 void renderPoints(){
   for(int i = position.size() - 1; i >= 0; i--){
     
